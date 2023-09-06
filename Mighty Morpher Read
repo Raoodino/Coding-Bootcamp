@@ -1,0 +1,54 @@
+6. Mighty Morpher (48pt, 150m)
+Background
+Morphological analysis in linguistics is the analysis of the internal structure of words and parts of words (such as stems, root words, prefixes, and suffixes). It is frequently used to extract such information as part of speech, tense, gender, and plurality for use in further linguistic processing.
+Most human languages have evolved organically, but there are a number of deliberately-constructed languages, often with the goal of a more uniform morphology (eliminating the many exceptions present in evolved languages). Alternately, the conlang may have the goal of being an "international auxiliary language" to permit communication between speakers of different languages. The best-known such "conlang" is probably Esperanto, but there are many others, including Ido, Interlingua, Interlingue, Lojban, Novial, Toki Pona, and Volapük. Constructed languages are also frequent in fiction, especially science fiction: Klingon, Dothraki, and Valyrian to name just three. The LTI even offers a course in which you can learn to create your own conlang: 11-623.
+Problem Statement
+Your task is to create a morphological analyzer which extracts the root word and part-of-speech, tense, number, and gender information from words in the conlang Bootcampese. While Bootcampese has a fairly complex morphology, it is completely regular, so you won't need to deal with exceptions to the rules.
+Part of speech is indicated by a prefix:
+u- verb
+y- adjective
+yu- adverb
+a- preposition (see special rule below)
+aa- conjunction (see special rule below)
+e-/i-/o- pronoun (see special rule below)
+(no prefix) noun
+Tense is indicated by a suffix:
+-y future tense
+-u past tense
+(no suffix) present tense
+Gender is indicated by the initial vowel in the stem (the part remaining after removing prefixes and suffixes), or the prefix of a pronoun:
+e neuter
+i feminine
+o masculine
+Number is indicated by the length of the initial vowel in the stem:
+a short vowel (written as a single letter) is singular
+a long vowel (written as a doubled letter) is plural
+The stem always starts and ends with a consonant (letter other than 'a', 'e', 'i', 'o', or 'u').
+The root of a word is the singular neuter present-tense nominal (noun) form of the word. For example, "uroory" analyzes as "u-roor-y", a plural masculine future tense verb ("oo" is plural masculine). To form the root, we take the stem "roor" and replace its initial vowel to make the singular neuter form "rer".
+Special rule for prepositions and conjunctions: The root for a preposition or conjunction is the word itself. Do not strip any affixes or modify interior vowels. Prepositions and conjunctions do not have tense, gender, or number.
+Special rule for pronouns: The initial vowel is part of the root, but is modified to singular neuter form (see also Sample 2 below).
+Constraints
+The input will be a valid Bootcampese word.
+Format for Custom Input
+Output
+morpher returns a filled-out structure of type Morph, which the harness code then prints out. Set the fields as follows:
+.root   	the root word for the given input
+.pos	"N" for noun, "V" for verb, "ADJ" for adjective, "ADV" for adverb, "R" for preposition, "C" for conjunction, or "PN" for pronoun
+.tense	"PRES" for present tense, "PAST" for past tense, "FUT" for future tense
+.gender	"N"/"F"/"M" for neuter/feminine/masculine
+.number	"S"/"P" for singular/plural
+Tense, gender, and number are not used if the part of speech is preposition or conjunction.
+Sample 1
+Input
+uroory
+Output
+rer+V-FUT-P-M
+Explanation
+The prefix u- indicates that this is verb; the suffix -y indicates future tense. After stripping these affixes, we are left with the stem "roor". The vowel "o" indicates masculine gender, and because it is long (doubled) it indicates plural number. Finally, we replace the initial vowel of the stem by "e" (singular neuter) to form the root.
+Sample 2
+Input
+iicle
+Output
+ecle+PN-PRES-P-F
+Explanation
+Because the word starts with 'i', we know that this is a feminine pronoun. The doubled vowel indicates plural, and the lack of a -y -or -u suffix indicates present tense. To get the root form, we need to replace the initial long vowel with an 'e' to get a singular neuter form.
